@@ -1,0 +1,57 @@
+<div class="bg-body-secondary text-center py-1 rounded-2">
+  <h6 class="display-6 fw-bold">Payment Transaction</h6>
+</div>
+<div class="row mt-5">
+  <div class="col-12">
+    <app-payment-transaction-form />
+  </div>
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="">OrderId</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col" class="">Provided Reference</th>
+            <th scope="col" class="">Update On</th>
+            <th scope="col" class="">Actoin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="" *ngFor="let pd of service.transactions()">
+            <th scope="row">{{pd.id}}</th>
+            <td style="max-width: 150px;" class="text-truncate">{{pd.orderId}}</td>
+            <td class="text-end">{{pd.amount | currency:'INR':'symbol'}}</td>
+            <td>
+              <span [ngSwitch]="pd.status">
+                <span *ngSwitchCase="1" class="badge rounded-pill text-bg-warning">Pending</span>
+                <span *ngSwitchCase="2" class="badge rounded-pill text-bg-success">Completed</span>
+                <span *ngSwitchCase="3" class="badge rounded-pill text-bg-danger">Failed</span>
+                <span *ngSwitchCase="4" class="badge rounded-pill text-bg-secondary">Cancelled</span>
+              </span>
+            </td>
+            <td style="max-width: 150px;" class="text-truncate">{{pd.providerReference}}</td>
+            <td style="max-width: 150px;" class="text-truncate">{{pd.updatedOn | date:'short'}}</td>
+            <td style="max-width: 150px;">
+              <button *ngIf="pd.status === 1" class="btn btn-sm btn-outline-success"
+                (click)="simulateWebhook(pd.providerReference,2)">
+                <i class="fa-solid fa-circle-check"></i>
+              </button>
+              <button *ngIf="pd.status === 1" class="btn btn-sm btn-outline-secondary"
+                (click)="simulateWebhook(pd.providerReference,4)">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="service.transactions().length == 0">
+            <td colspan="7" class="text-center">No transactions found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>

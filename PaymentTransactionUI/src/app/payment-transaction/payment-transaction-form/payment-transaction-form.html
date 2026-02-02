@@ -1,0 +1,20 @@
+<form class="row g-2" #form="ngForm" (submit)="onSubmit(form)"
+    [class.submitted]="service.formSubmitted" novalidate autocomplete="off"    
+>
+  <div class="col-11">
+    <label for="amount" class="visually-hidden">Amount</label>
+    <input 
+        type="number" 
+        class="form-control" 
+        id="amount" 
+        name="amount"
+        placeholder="0.00" 
+        #amount="ngModel"
+        min="1"
+        step="0.01"
+        [(ngModel)]="service.formData.amount" required/>
+  </div>
+  <div class="col-1 text-end">
+    <button type="submit" class="btn btn-primary mb-3">Add</button>
+  </div>
+</form>
